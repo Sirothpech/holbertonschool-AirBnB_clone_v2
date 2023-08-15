@@ -19,3 +19,36 @@ locale.json
 
 # Fichiers de dépendances (ajustez selon votre projet)
 /node_modules/
+
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+
+# Environnements virtuels
+venv/
+env/
+
+# Fichiers d'installation et de configuration
+*.sqlite
+*.pyc
+*.pyo
+*.env
+*.log
+*.db
+*.sqlite3
+
+# Fichiers spécifiques à Visual Studio Code
+.vscode/
+
+# Fichiers de dépendances
+lib/
+lib64/
+bin/
+
+# Fichiers et dossiers générés par Flask
+instance/
+*.pyc
+*.pyo
+__pycache__/
+*.log
+
