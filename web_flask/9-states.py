@@ -67,7 +67,7 @@ def states_or_cities(id=None):
             if state.id == id:
                 return render_template("9-states.html", states=state)
         return render_template("9-states.html")
-    return render_template("9-states.html", states=states, state=True)
+    return render_template("9-states.html", states=states, full=True)
 
 
 @app.teardown_appcontext
