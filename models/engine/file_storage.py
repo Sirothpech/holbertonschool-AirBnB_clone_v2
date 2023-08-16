@@ -63,4 +63,4 @@ class FileStorage:
         del (FileStorage.__objects["{}.{}".format(type(obj).__name__, obj.id)])
 
     def close(self):
-        self.reload
+        self.reload()
