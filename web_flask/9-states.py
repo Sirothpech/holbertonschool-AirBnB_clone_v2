@@ -66,7 +66,7 @@ def states_or_cities(id=None):
         for state in states:
             if state.id == id:
                 return render_template("9-states.html", states=state)
-            return render_template("9-states.html")
+        return render_template("9-states.html")
     return render_template("9-states.html", states=states, state=True)
 
 
