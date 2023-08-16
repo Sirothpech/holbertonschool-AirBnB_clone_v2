@@ -55,22 +55,18 @@ class DBStorage:
         for all objects of the given class.
         """
         result = {}
-        classes = {
-            'State': State, 'City': City, 'User': User,
-            'Place': Place, 'Review': Review, 'Amenity': Amenity
-        }
+        classes = [State, City, User, Place, Review, Amenity]
 
         # Import storage here to avoid circular import
-        from models import storage
 
         if cls is None:
-            for c in classes.values():
+            for c in classes:
                 query_result = self.__session.query(c).all()
                 for obj in query_result:
                     key = "{}.{}".format(type(obj).__name__, obj.id)
                     result[key] = obj
         else:
-            query_result = self.__session.query(classes[cls]).all()
+            query_result = self.__session.query(cls).all()
             for obj in query_result:
                 key = "{}.{}".format(type(obj).__name__, obj.id)
                 result[key] = obj

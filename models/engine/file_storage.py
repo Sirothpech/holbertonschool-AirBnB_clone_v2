@@ -11,17 +11,19 @@ class FileStorage:
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         if cls is None:
-            return FileStorage.__objects
-        dico = FileStorage.__objects
-        d = {}
-        for k, v in dico.items():
-            if type(dico[k]) == cls:
-                d[k] = dico[k]
-        return d
+            return self.__objects
+        else:
+            objects_by_class = {}
+            for obj_id, obj in self.__objects.items():
+                if type(obj) == cls:
+                    objects_by_class[obj_id] = obj
+            return objects_by_class
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
+        """Set in __objects obj with key <obj_class_name>.id."""
+        self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
 
     def save(self):
         """Saves storage dictionary to file"""
@@ -53,6 +55,13 @@ class FileStorage:
                 temp = json.load(f)
                 for key, val in temp.items():
                     self.all()[key] = classes[val['__class__']](**val)
+
+            with open(self.__file_path, "r", encoding="utf-8") as file:
+                loaded_objects = json.load(file)
+                for key, value in loaded_objects.items():
+                    class_name = value["__class__"]
+                    del value["__class__"]
+                    self.new(eval(class_name)(**value))
         except FileNotFoundError:
             pass
 
@@ -60,7 +69,14 @@ class FileStorage:
         """delete obj from __objects if it’s inside."""
         if obj is None:
             return
-        del (FileStorage.__objects["{}.{}".format(type(obj).__name__, obj.id)])
+
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            self.__objects.pop(key, None)
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        if key in self.__objects:
+            del self.__objects[key]
+            self.save()
 
     def close(self):
         self.reload()
