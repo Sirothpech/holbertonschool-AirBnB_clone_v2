@@ -61,7 +61,7 @@ def cities_by_states():
 @app.route("/states/", strict_slashes=False)
 @app.route("/states/<id>", strict_slashes=False)
 def states_or_state(id=None):
-    states = storage.all(State).value()
+    states = storage.all(State).values()
     if id is not None:
         for state in states:
             if state.id == id:
