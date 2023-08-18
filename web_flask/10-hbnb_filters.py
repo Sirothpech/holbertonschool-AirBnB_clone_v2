@@ -75,9 +75,8 @@ def states_or_state(id=None):
 def hbnb_filters():
     states = storage.all(State).values()
     amenity = storage.all(Amenity).values()
-    cities = storage.all(City).values()
     return render_template("10-hbnb_filters.html", states=states,
-                           amenity=amenity, city=cities)
+                           amenities=amenity)
 
 
 @app.teardown_appcontext
